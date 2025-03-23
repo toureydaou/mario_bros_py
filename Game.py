@@ -1,7 +1,8 @@
 import pygame
+from gameObjects.Player import player
+from Physics import physics
 
 class Game :
-    
 
     def __init__(self, player):
         self.player = player
@@ -9,14 +10,8 @@ class Game :
         self.screen = pygame.display.set_mode((1280, 720))
         self.clock = pygame.time.Clock()
         self.running = True
-        
-    def detect_keys():
-        keys = pygame.key.get_pressed()
-        #### a continuer ####
-        # if keys[K_w]:
-        #     self.player.get_x()
-            
-        
+        self.physics = physics()
+          
     def run(self):
         while self.running:
             # poll for events
@@ -29,7 +24,8 @@ class Game :
             self.screen.fill("cyan")
 
             # RENDER YOUR GAME HERE
-
+            self.player.draw(self.screen)
+            self.player.update(self.physics)
             # flip() the display to put your work on screen
             pygame.display.flip()
 
@@ -38,5 +34,6 @@ class Game :
         pygame.quit()
         
         
-test = Game()
-test.run()
+player = player(0,0)
+game = Game(player)
+game.run()
