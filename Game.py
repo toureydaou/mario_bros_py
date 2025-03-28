@@ -4,13 +4,16 @@ from gameObjects.Gomba import Gomba
 from Physics import physics
 from gameObjects.Pipes import Pipe
 import random
+from gameObjects.Terrain import terrain
+
 
 
 class Game:
 
-    def __init__(self, player, gombas, pipes):
+    def __init__(self, player, gombas, pipes, terrain):
         self.player = player
         self.gombas = gombas
+        self.terrain = terrain
         self.pipes = pipes
         pygame.init()
         self.screen = pygame.display.set_mode((1280, 720))
@@ -31,6 +34,7 @@ class Game:
             self.screen.fill("cyan")
 
             # RENDER YOUR GAME HERE
+            self.terrain.draw(self.screen)
             self.player.draw(self.screen)
             self.player.update(self.physics)
 
@@ -40,6 +44,7 @@ class Game:
             for gomba in self.gombas:
                 gomba.draw(self.screen)
                 gomba.update(self.pipes, self.gombas)
+
 
             for pipe in self.pipes:
                 pipe.draw(self.screen)
@@ -54,11 +59,17 @@ class Game:
 
 gombas = []
 
+
 pipes = []
 pipe1 = Pipe(400, 400)
 pipe2 = Pipe(900, 400)
 player = player(0, 0)
 pipes.append(pipe1)
 pipes.append(pipe2)
-game = Game(player, gombas, pipes)
+
+Terrain = terrain(0,550,2000)
+
+player = player(0, 0)
+game = Game(player, gombas, pipe, Terrain)
+
 game.run()
