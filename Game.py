@@ -2,7 +2,8 @@ import pygame
 from gameObjects.Player import player
 from gameObjects.Gomba import Gomba
 from Physics import physics
-from gameObjects.Pipes import Pipes
+from gameObjects.Pipes import Pipe
+import random
 
 
 class Game:
@@ -18,6 +19,7 @@ class Game:
         self.physics = physics()
 
     def run(self):
+        self.gombas.append(Gomba(520, 535))
         while self.running:
             # poll for events
             # pygame.QUIT event means the user clicked X to close your window
@@ -32,13 +34,16 @@ class Game:
             self.player.draw(self.screen)
             self.player.update(self.physics)
 
-            self.gombas.append(Gomba(520, 535))
+            if len(self.gombas) < 3:
+                self.gombas.append(Gomba(random.randint(600, 860), 535))
 
-            gombas[0].draw(self.screen)
-            gombas[0].update(self.physics)
+            for gomba in self.gombas:
+                gomba.draw(self.screen)
+                gomba.update(self.pipes, self.gombas)
 
-            pipe.draw(self.screen)
-
+            for pipe in self.pipes:
+                pipe.draw(self.screen)
+            
             # flip() the display to put your work on screen
             pygame.display.flip()
 
@@ -48,7 +53,12 @@ class Game:
 
 
 gombas = []
-pipe = Pipes(400, 300)
+
+pipes = []
+pipe1 = Pipe(400, 400)
+pipe2 = Pipe(900, 400)
 player = player(0, 0)
-game = Game(player, gombas, pipe)
+pipes.append(pipe1)
+pipes.append(pipe2)
+game = Game(player, gombas, pipes)
 game.run()
