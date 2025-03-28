@@ -2,8 +2,9 @@ import pygame
 from interface.Object import object
 from Physics import physics
 
-class player(object) :
-    
+
+class player(object):
+
     def __init__(self, x, y):
         super().__init__(x, y)
         self.width = 50
@@ -13,35 +14,35 @@ class player(object) :
         self.isDead = False
         self.y_velocity = 0
         self.on_ground = False
-        
+
     def update(self, physics):
-        
+
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a]:
+        if keys[pygame.K_LEFT]:
             self.x -= 5
-        if keys[pygame.K_d]:
+        if keys[pygame.K_RIGHT]:
             self.x += 5
-        if keys[pygame.K_SPACE] and self.on_ground:
-            self.y_velocity = -10
-            
+        if keys[pygame.K_UP] and self.on_ground:
+            self.y -= 200
+
         physics.apply_gravity(self)
 
-        if(self.y >= 500):
+        if (self.y >= 500):
             self.on_ground = True
         else:
             self.on_ground = False
 
         self.y += self.y_velocity
         print(self.y)
-        
-        
+
     def draw(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height))
-        
+        pygame.draw.rect(screen, (255, 0, 0),
+                         (self.x, self.y, self.width, self.height))
+
     def on_hit(self):
-        if(self.life_points - 1 <= 0):
-            if(self.lives - 1 <= 0):
+        if (self.life_points - 1 <= 0):
+            if (self.lives - 1 <= 0):
                 self.isDead = True
             else:
                 self.lives = self.lives - 1
