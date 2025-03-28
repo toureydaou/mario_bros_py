@@ -2,14 +2,16 @@ import pygame
 from gameObjects.Player import player
 from gameObjects.Gomba import Gomba
 from Physics import physics
-from gameObjects.Pipes import Pipes
+from gameObjects.Pipes import pipes
+from gameObjects.Terrain import terrain
 
 
 class Game:
 
-    def __init__(self, player, gombas, pipes):
+    def __init__(self, player, gombas, pipes, terrain):
         self.player = player
         self.gombas = gombas
+        self.terrain = terrain
         self.pipes = pipes
         pygame.init()
         self.screen = pygame.display.set_mode((1280, 720))
@@ -29,14 +31,15 @@ class Game:
             self.screen.fill("cyan")
 
             # RENDER YOUR GAME HERE
+            self.terrain.draw(self.screen)
             self.player.draw(self.screen)
             self.player.update(self.physics)
 
-            self.gombas.append(Gomba(520, 535))
+            self.gombas.append(Gomba(520, 520))
 
             gombas[0].draw(self.screen)
             gombas[0].update(self.physics)
-
+            physics
             pipe.draw(self.screen)
 
             # flip() the display to put your work on screen
@@ -48,7 +51,8 @@ class Game:
 
 
 gombas = []
-pipe = Pipes(400, 300)
+Terrain = terrain(0,550,2000)
+pipe = pipes(400, 450)
 player = player(0, 0)
-game = Game(player, gombas, pipe)
+game = Game(player, gombas, pipe, Terrain)
 game.run()

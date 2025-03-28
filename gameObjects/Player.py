@@ -12,30 +12,46 @@ class player(object):
         self.life_points = 3
         self.lives = 3
         self.isDead = False
+        self.x_velocity = 10
         self.y_velocity = 0
         self.on_ground = False
+        self.is_jumping = False
+        self.jump_limit = self.y - 100
 
     def update(self, physics):
-
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
-            self.x -= 5
+            self.x -= self.x_velocity
         if keys[pygame.K_RIGHT]:
-            self.x += 5
+            self.x += self.x_velocity
         if keys[pygame.K_UP] and self.on_ground:
-            self.y -= 200
+            self.is_jumping = True
+            self.on_ground = False
+            self.update_jump_limit()
 
         physics.apply_gravity(self)
-
-        if (self.y >= 500):
+        
+        if self.y <= self.jump_limit:
+            self.is_jumping = False
+            
+        print("-----------------------------")
+        print("isJumping : " + (str)(self.is_jumping))
+        print("on ground : " + (str)(self.on_ground))
+        print("y position : " + (str)(self.y))
+        print("-----------------------------")
+            
+        if self.y + self.y_velocity >= 500 :
+            self.y = 500
+            self.y_velocity = 0
             self.on_ground = True
-        else:
-            self.on_ground = False
-
+            
         self.y += self.y_velocity
-        print(self.y)
 
+    
+    def update_jump_limit(self):
+        self.jump_limit = self.y - 100
+        
     def draw(self, screen):
         pygame.draw.rect(screen, (255, 0, 0),
                          (self.x, self.y, self.width, self.height))
