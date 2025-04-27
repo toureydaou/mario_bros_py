@@ -31,7 +31,8 @@ class Game:
         self.turtle1 = turtle(1500, 500, self.player, self.camera, self.screen)
         self.turtle2 = turtle(1700, 500, self.player, self.camera, self.screen)
         self.turtle2 = turtle(1900, 500, self.player, self.camera, self.screen)
-        self.physics = physics(self.world.tile_map, self.turtle)
+        self.turtles = [self.turtle, self.turtle1, self.turtle2]
+        self.physics = physics(self.world.tile_map, self.turtles)
 
         # Police et affichage des vies
         self.font = pygame.font.Font('assets/fonts/Minecraft.ttf', 24)

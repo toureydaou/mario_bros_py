@@ -56,8 +56,10 @@ class physics:
 
     def characters_collision(self, character): # Collision entre joueur et ennemies
         
-        dx = character.collision_shape.x - self.ennemies.collision_shape.x
-        dy = character.collision_shape.y - self.ennemies.collision_shape.y
-        dist_sq = dx*dx + dy*dy
-        r_sum = character.collision_shape.radius + self.ennemies.collision_shape.radius
-        return dist_sq <= r_sum*r_sum
+        for enm in self.ennemies:
+            dx = character.collision_shape.x - enm.collision_shape.x
+            dy = character.collision_shape.y - enm.collision_shape.y
+            dist_sq = dx*dx + dy*dy
+            r_sum = character.collision_shape.radius + enm.collision_shape.radius
+            if (dist_sq <= r_sum*r_sum):
+                return True
